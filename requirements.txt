@@ -1,0 +1,16 @@
+# ── Core ML / training (app/memlm) ──────────────────────────────────────
+torch>=2.1
+transformers>=4.38
+trl==1.8.0
+datasets>=2.18
+accelerate>=0.27
+
+# ── Data / chart codec (app/utils) ──────────────────────────────────────
+pandas>=2.0
+numpy>=1.24
+pyarrow>=14.0
+fastparquet>=2024.5.0
+
+matplotlib
+PyYAML
+duckdb
