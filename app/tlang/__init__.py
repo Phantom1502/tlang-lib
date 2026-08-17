@@ -5,6 +5,7 @@ from .nodes import (
     ProgramNode,
     ThinkNode,
     ZoneNode,
+    ActionNode
 )
 
 from .lang import (
@@ -23,6 +24,7 @@ __all__ = [
     "ProgramNode",
     "ThinkNode",
     "ZoneNode",
+    "ActionNode",
     "TLangConfig",
     "ASTVisitor",
     "ParseError",
