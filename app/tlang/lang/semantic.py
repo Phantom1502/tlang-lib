@@ -158,7 +158,7 @@ class SemanticChecker:
         is_price_in_zone = any(c.low <= zone.upper_bin and c.high >= zone.lower_bin for c in last_n_candles) and is_current_price_in_extend_zone
         if not is_price_in_zone:
             violations.append(
-                f"zone={zone.direction} ({zone.lower_bin}:{zone.upper_bin}) không chạm {self.last_n_touch} candles gần nhất, "
+                f"zone={zone.direction} ({zone.lower_bin}:{zone.upper_bin}) không chạm {self.cfg.last_n_touch} candles gần nhất, "
                 f"hoặc current_price ({current}) đã di chuyển quá xa khỏi zone. Không nằm trong phạm vi model cần học."
             )
         return is_price_in_zone

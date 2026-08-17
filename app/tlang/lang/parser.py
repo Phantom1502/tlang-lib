@@ -163,6 +163,7 @@ class Parser:
         else:
             action = self._parse_action_block()
             program = ProgramNode(chart=chart, think=think, action=action)
+            self._check_current_price_matches_chart(chart, think)
             self._check_action_field_consistency(think, action)
         
         if not self._check(TokenType.EOF):
