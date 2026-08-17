@@ -1,6 +1,10 @@
-from app.tlang.lang.parser import Parser, ParseResult
-from app.tlang.lang.semantic import SemanticChecker
-from app.tlang.lang.config import TLangConfig
+from app.tlang import (
+    TLangConfig,
+    Parser,
+    ParseError,
+    ParseResult,
+    SemanticChecker
+)
 
 def test(text: str, cfg: TLangConfig):
     parser_result: ParseResult = Parser.from_text(
