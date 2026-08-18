@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="tlang-lib",
-    version="0.1.3",
+    version="0.1.4",
     description="Tlang library",
     
     # 1. Báo cho setuptools biết root của code nằm ở thư mục 'app'
@@ -15,5 +15,6 @@ setup(
     install_requires=[
         "pandas>=2.0",
         "numpy>=1.24",
+        "matplotlib",
     ],
 )
