@@ -72,7 +72,9 @@ class SemanticChecker:
         if think.zone is not None:
             self._check_zone_direction_vs_price(think, violations)
             self._check_zone_width(think, violations)
-            self._check_price_in_zone_geometry(chart, think, violations)
+            
+            if self.cfg.mode == "full": # check price in zone
+                self._check_price_in_zone_geometry(chart, think, violations)
             
         if self.cfg.mode == "full":
             self._check_action_group(think, action, violations)
