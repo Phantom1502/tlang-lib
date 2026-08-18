@@ -2,3 +2,4 @@ app/tlang/__pycache__/
 app/__pycache__/
 app/tlang/lang/__pycache__/
 tests/__pycache__/
+data/

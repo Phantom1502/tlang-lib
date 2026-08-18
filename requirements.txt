@@ -14,3 +14,4 @@ fastparquet>=2024.5.0
 matplotlib
 PyYAML
 duckdb
+mplfinance

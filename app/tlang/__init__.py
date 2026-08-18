@@ -18,6 +18,9 @@ from .lang import (
     SemanticResult,
 )
 
+from .chart_codec import ChartCodec
+from .plot import plot_program
+
 __all__ = [
     "CandleNode",
     "ChartNode",
@@ -32,4 +35,6 @@ __all__ = [
     "Parser",
     "SemanticChecker",
     "SemanticResult",
+    "ChartCodec",
+    "plot_program",
 ]

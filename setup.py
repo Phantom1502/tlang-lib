@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="tlang-lib",
-    version="0.1.2",
+    version="0.1.3",
     description="Tlang library",
     
     # 1. Báo cho setuptools biết root của code nằm ở thư mục 'app'
