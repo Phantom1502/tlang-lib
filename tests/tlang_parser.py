@@ -43,7 +43,7 @@ def test_mode_zone():
     
     cfg: TLangConfig = TLangConfig(
         expected_candle_count=1,
-        bin_range=(0, 3),
+        n_bins=4,
         digit_pad=4,
         mode="zone",
         zone_range=(0, 3),
@@ -72,7 +72,7 @@ def test_mode_full():
     
     cfg: TLangConfig = TLangConfig(
         expected_candle_count=1,
-        bin_range=(0, 3),
+        n_bins=4,
         digit_pad=4,
         mode="full",
         zone_range=(0, 3),
@@ -91,7 +91,7 @@ def test_full():
     n_bins = 2048
     cfg: TLangConfig = TLangConfig(
         expected_candle_count=100,
-        bin_range=(0, n_bins-1),
+        n_bins=n_bins,
         digit_pad=4,
         mode="full",
         zone_range=(50, 100),
