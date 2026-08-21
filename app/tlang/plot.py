@@ -3,7 +3,11 @@ import mplfinance as mpf
 import pandas as pd
 from typing import List, Optional
 
-from .nodes import ProgramNode, CandleNode
+from .nodes import (
+    ProgramNode, 
+    CandleNode,
+    ZoneNode   
+)
 
 def plot_program(program: ProgramNode, future_candles: Optional[List[CandleNode]] = None):
     # 1. Gom toàn bộ nến (input + future)
