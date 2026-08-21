@@ -19,7 +19,7 @@ from .lang import (
 )
 
 from .chart_codec import ChartCodec
-from .plot import plot_program
+from .plot import plot_program, plot_zones
 
 __all__ = [
     "CandleNode",
@@ -37,4 +37,5 @@ __all__ = [
     "SemanticResult",
     "ChartCodec",
     "plot_program",
+    "plot_zones"
 ]
