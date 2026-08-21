@@ -111,7 +111,7 @@ def plot_zones(input_candles: List[CandleNode], future_candles: List[CandleNode]
         df,
         type='candle',
         style=style,
-        title=f"Program Execution Viz | Action: {getattr(program.action, 'action_type', 'HOLD')}",
+        title=f"Zones Viz",
         ylabel="Quantized Bin / Price",
         figratio=(12, 7),
         returnfig=True
