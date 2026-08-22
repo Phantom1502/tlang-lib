@@ -37,6 +37,18 @@ class ThinkNode:
         if self.zone is None:
             return "NO_ZONE"
         return self.zone.direction
+    
+    @property
+    def zone_upper(self) -> int:
+        if self.zone is None:
+            return 0
+        return self.zone.upper_bin
+    
+    @property
+    def zone_lower(self) -> int:
+        if self.zone is None:
+            return 0
+        return self.zone.lower_bin
 
 @dataclass
 class ActionNode:
