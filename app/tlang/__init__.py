@@ -5,7 +5,10 @@ from .nodes import (
     ProgramNode,
     ThinkNode,
     ZoneNode,
-    ActionNode
+    ActionNode,
+    ActionType,
+    ZoneDirection,
+    TrendType
 )
 
 from .lang import (
@@ -28,6 +31,9 @@ __all__ = [
     "ThinkNode",
     "ZoneNode",
     "ActionNode",
+    "ActionType",
+    "ZoneDirection",
+    "TrendType",
     "TLangConfig",
     "ASTVisitor",
     "ParseError",
