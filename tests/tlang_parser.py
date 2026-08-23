@@ -10,7 +10,10 @@ from app.tlang import (
     ChartNode,
     ThinkNode,
     ZoneNode,
-    ActionNode
+    ActionNode,
+    ActionType,
+    ZoneDirection,
+    TrendType
 )
 
 def test(text: str, cfg: TLangConfig):
@@ -34,11 +37,6 @@ def test_mode_zone():
     <current_price>0001</current_price>
     <zone_support>0000:0003</zone_support>
     </think>
-    <action>
-    BUY
-    SL:0000
-    <RR_1>
-    </action>
     """
     
     cfg: TLangConfig = TLangConfig(
@@ -120,16 +118,16 @@ def test_full():
     program: ProgramNode = ProgramNode(
         chart=chart, 
         think=ThinkNode(
-            trend="UP",
+            trend=TrendType.UP,
             current_price_bin=chart.current_price,
             zone=ZoneNode(
-                direction="support",
+                direction=ZoneDirection.support,
                 lower_bin=chart.current_price - 50,
                 upper_bin=chart.current_price + 50
             )
         ),
         action=ActionNode(
-            action_type="BUY",
+            action_type=ActionType.BUY,
             sl=chart.current_price - 51,
             rr=3
         )
@@ -138,6 +136,8 @@ def test_full():
     from app.tlang import ASTVisitor
     ast_visitor = ASTVisitor(digit_pad=cfg.digit_pad)
     txt = ast_visitor.visit_program(program)
+    
+    print(txt)
     test(txt, cfg)
     
     plot_program(program)

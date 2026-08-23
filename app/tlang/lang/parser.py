@@ -11,6 +11,9 @@ from ..nodes import (
     ProgramNode,
     ThinkNode,
     ZoneNode,
+    ZoneDirection,
+    ActionType,
+    TrendType
 )
 from .lexer import Lexer
 from .tokens import Token, TokenType
@@ -231,7 +234,7 @@ class Parser:
             self._error("Thiếu <trend> trong think_block")
         else:
             tok = self._advance()
-            think.trend = self._extract_enum(tok.value, ("UP", "DOWN", "RANGE"))
+            think.trend = self._extract_enum(tok.value, (TrendType.UP, TrendType.DOWN, TrendType.RANGE))
 
         if not self._check(TokenType.CURRENT_PRICE_OPEN):
             self._error("Thiếu <current_price> — field này BẮT BUỘC trong mọi think_block", severity="value")
@@ -245,19 +248,19 @@ class Parser:
 
         if self._check(TokenType.ZONE_SUPPORT_OPEN, TokenType.ZONE_RESISTANCE_OPEN):
             is_support = self._check(TokenType.ZONE_SUPPORT_OPEN)
-            direction = "support" if is_support else "resistance"
+            direction = ZoneDirection.support if is_support else ZoneDirection.resistance
             close_type = TokenType.ZONE_SUPPORT_CLOSE if is_support else TokenType.ZONE_RESISTANCE_CLOSE
             self._advance()  # tag mở
 
-            lower = self._parse_digit_run(f"zone_{direction}.lower")
+            lower = self._parse_digit_run(f"zone_{direction.value}.lower")
             if not self._check(TokenType.COLON):
-                self._error(f"Thiếu ':' phân cách trong zone_{direction}")
+                self._error(f"Thiếu ':' phân cách trong zone_{direction.value}")
             else:
                 self._advance()
-            upper = self._parse_digit_run(f"zone_{direction}.upper")
+            upper = self._parse_digit_run(f"zone_{direction.value}.upper")
 
             if not self._check(close_type):
-                self._error(f"Thiếu tag đóng cho zone_{direction}")
+                self._error(f"Thiếu tag đóng cho zone_{direction.value}")
             else:
                 self._advance()
 
@@ -285,7 +288,7 @@ class Parser:
             self._error("Thiếu ACTION_TYPE trong action_block")
         else:
             tok = self._advance()
-            action.action_type = tok.value.strip()
+            action.action_type = ActionType(tok.value.strip())
 
         if self._check(TokenType.SL_LABEL):
             self._advance()
@@ -326,8 +329,8 @@ class Parser:
             return
 
         action_type = action.action_type
-        requires_full = action_type in ("BUY", "SELL")
-        requires_empty = action_type in ("HOLD")
+        requires_full = action_type in (ActionType.BUY, ActionType.SELL)
+        requires_empty = action_type == ActionType.HOLD
 
         if requires_full:
             if action.sl is None:
@@ -352,10 +355,10 @@ class Parser:
         return int(m.group()) if m else None
 
     @staticmethod
-    def _extract_enum(raw: Optional[str], choices: Tuple[str, ...]) -> Optional[str]:
+    def _extract_enum(raw: Optional[str], choices: Tuple[TrendType, ...]) -> Optional[TrendType]:
         if raw is None:
             return None
         for choice in choices:
-            if choice in raw:
+            if choice.value in raw:
                 return choice
         return None

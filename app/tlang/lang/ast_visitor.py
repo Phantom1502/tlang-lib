@@ -75,11 +75,11 @@ class ASTVisitor:
         return " ".join(parts)
 
     def visit_zone(self, zone: ZoneNode) -> str:
-        parts = [f"<{zone.direction.value}>"]
+        parts = [f"<zone_{zone.direction.value}>"]
         parts.extend(_digits(zone.lower_bin, self.digit_pad))
         parts.append(":")
         parts.extend(_digits(zone.upper_bin, self.digit_pad))
-        parts.append(f"</{zone.direction.value}>")
+        parts.append(f"</zone_{zone.direction.value}>")
         return " ".join(parts)
     
     def visit_action(self, action: ActionNode) -> str:
