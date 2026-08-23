@@ -6,7 +6,8 @@ from typing import List, Optional
 from .nodes import (
     ProgramNode, 
     CandleNode,
-    ZoneNode   
+    ZoneNode,
+    ZoneDirection
 )
 
 def plot_program(program: ProgramNode, future_candles: Optional[List[CandleNode]] = None):
@@ -66,15 +67,29 @@ def plot_program(program: ProgramNode, future_candles: Optional[List[CandleNode]
     if program.action is not None:
         act = program.action
         
+        zone = program.think.zone
+        current_price = program.chart.current_price
+        
+        if zone.direction == ZoneDirection.support:
+            if zone.lower_bin <= current_price <= zone.upper_bin:
+                entry = current_price
+            else:
+                entry = zone.upper_bin
+        else:  # resistance
+            if zone.lower_bin <= current_price <= zone.upper_bin:
+                entry = current_price
+            else:
+                entry = zone.lower_bin
+        
         # Entry
-        ax.axhline(program.chart.current_price, color="gray", linestyle="--", linewidth=1.5, label=f"Entry ({program.chart.current_price})")
+        ax.axhline(entry, color="gray", linestyle="--", linewidth=1.5, label=f"Entry ({entry})")
             
         # Stop Loss
         ax.axhline(act.sl, color="red", linestyle="-", linewidth=2, label=f"SL ({act.sl})")
         
-        tp_price = act.rr * (program.chart.current_price - act.sl) + program.chart.current_price
+        tp_price = act.rr * (entry - act.sl) + entry
         if act.action_type == "SELL":
-            tp_price = program.chart.current_price - act.rr * (act.sl - program.chart.current_price)
+            tp_price = entry - act.rr * (act.sl - entry)
         
         ax.axhline(tp_price, color="green", linestyle="-", linewidth=2, label=f"TP ({tp_price})")
 
