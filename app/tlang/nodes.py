@@ -2,8 +2,23 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from typing import List, Optional
+from enum import Enum
 
-
+class ZoneDirection(Enum):
+    support = "support"
+    resistance = "resistance"
+    no_zone = "no_zone"
+    
+class TrendType(Enum):
+    UP = "UP"
+    DOWN = "DOWN"
+    RANGE = "RANGE"
+    
+class ActionType(Enum):
+    BUY = "BUY"
+    SELL = "SELL"
+    HOLD = "HOLD"
+  
 @dataclass
 class CandleNode:
     open:   int
@@ -22,20 +37,20 @@ class ChartNode:
 
 @dataclass
 class ZoneNode:
-    direction: str        # "support" | "resistance"
+    direction: ZoneDirection        # "support" | "resistance"
     lower_bin: int
     upper_bin: int
 
 @dataclass
 class ThinkNode:
-    trend: Optional[str] = None                  # "UP" | "DOWN" | "RANGE"
+    trend: Optional[TrendType] = None                  # "UP" | "DOWN" | "RANGE"
     current_price_bin: Optional[int] = None      # BẮT BUỘC theo spec — luôn phải có mặt
     zone: Optional[ZoneNode] = None
     
     @property
-    def zone_type(self) -> Optional[str]:
+    def zone_type(self) -> ZoneDirection:
         if self.zone is None:
-            return "NO_ZONE"
+            return ZoneDirection.no_zone
         return self.zone.direction
     
     @property
@@ -52,13 +67,9 @@ class ThinkNode:
 
 @dataclass
 class ActionNode:
-    action_type: Optional[str] = None  # BUY | SELL | HOLD
+    action_type: Optional[ActionType] = None  # ActionType  # BUY | SELL | HOLD
     sl: Optional[int] = None
     rr: Optional[int] = None           # risk luôn chuẩn hoá = 1, rr là reward-multiple duy nhất
-
-    @property
-    def is_hold(self) -> bool:
-        return self.action_type == "HOLD"
 
 @dataclass
 class ProgramNode:
