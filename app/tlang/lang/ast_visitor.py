@@ -61,7 +61,7 @@ class ASTVisitor:
         parts = ["<think>"]
 
         if think.trend is not None:
-            parts.append(f"<trend>{think.trend}</trend>")
+            parts.append(f"<trend>{think.trend.value}</trend>")
 
         if think.current_price_bin is not None:
             parts.append("<current_price>")
@@ -75,16 +75,15 @@ class ASTVisitor:
         return " ".join(parts)
 
     def visit_zone(self, zone: ZoneNode) -> str:
-        tag = "zone_support" if zone.direction == "support" else "zone_resistance"
-        parts = [f"<{tag}>"]
+        parts = [f"<{zone.direction.value}>"]
         parts.extend(_digits(zone.lower_bin, self.digit_pad))
         parts.append(":")
         parts.extend(_digits(zone.upper_bin, self.digit_pad))
-        parts.append(f"</{tag}>")
+        parts.append(f"</{zone.direction.value}>")
         return " ".join(parts)
     
     def visit_action(self, action: ActionNode) -> str:
-        parts = ["<action>", action.action_type]
+        parts = ["<action>", action.action_type.value]
         if action.sl is not None and action.rr is not None:
             parts += ["SL:", *_digits(action.sl, self.digit_pad), f"<RR_{action.rr}>"]
         parts.append("</action>")
