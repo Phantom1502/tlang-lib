@@ -223,9 +223,11 @@ class SemanticChecker:
         action: ActionNode,
         violations: List[str]
     ) -> None:
-        zone = think.zone # đối với action model, luôn luôn phải có zone
+        zone = think.zone # RANGE có thể no zone
         action_type = action.action_type
 
+        if zone is None: # accept cả 3 action BUY/SELL/HOLD
+            return
         if zone.direction == ZoneDirection.support:
             valid_actions = self.BUY_SIDE_ACTIONS
         else:  # resistance
