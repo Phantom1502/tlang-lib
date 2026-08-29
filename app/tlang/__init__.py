@@ -27,7 +27,8 @@ from .reward_util.common import (
     derive_target,
     find_best_rr,
     zone_score,
-    find_truly_valid_zones
+    find_truly_valid_zones,
+    find_entry_touch
 )
 __all__ = [
     "CandleNode",
@@ -52,5 +53,6 @@ __all__ = [
     "derive_target",
     "find_best_rr",
     "zone_score",
-    "find_truly_valid_zones"
+    "find_truly_valid_zones",
+    "find_entry_touch",
 ]
