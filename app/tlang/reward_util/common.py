@@ -24,7 +24,7 @@ def derive_target(
         target = entry_bin - rr * (sl_bin - entry_bin)
     return round(target)
 
-def _find_entry_touch(entry_price: int, type: ActionType, candles: List[CandleNode]) -> Optional[int]:
+def find_entry_touch(entry_price: int, type: ActionType, candles: List[CandleNode]) -> Optional[int]:
     """Index nến ĐẦU TIÊN có [low,high] giao với [zone.lower_bin,
     zone.upper_bin] — None nếu không nến nào chạm trong toàn bộ `candles`
     (caller đã cắt đúng outcome_horizon trước khi truyền vào)."""
@@ -157,9 +157,9 @@ def zone_score(
 ) -> float:
     touch_idx = None
     if zone.direction == ZoneDirection.support:
-        touch_idx = _find_entry_touch(zone.upper_bin, ActionType.BUY, future_candles)
+        touch_idx = find_entry_touch(zone.upper_bin, ActionType.BUY, future_candles)
     else:
-        touch_idx = _find_entry_touch(zone.lower_bin, ActionType.SELL, future_candles)
+        touch_idx = find_entry_touch(zone.lower_bin, ActionType.SELL, future_candles)
         
     if touch_idx is None:
         return 0.0
