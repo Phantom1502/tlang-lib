@@ -23,7 +23,12 @@ from .lang import (
 
 from .chart_codec import ChartCodec
 from .plot import plot_program, plot_zones
-
+from .reward_util.common import (
+    derive_target,
+    find_best_rr,
+    zone_score,
+    find_truly_valid_zones
+)
 __all__ = [
     "CandleNode",
     "ChartNode",
@@ -43,5 +48,9 @@ __all__ = [
     "SemanticResult",
     "ChartCodec",
     "plot_program",
-    "plot_zones"
+    "plot_zones",
+    "derive_target",
+    "find_best_rr",
+    "zone_score",
+    "find_truly_valid_zones"
 ]
