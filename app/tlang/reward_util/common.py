@@ -37,7 +37,14 @@ def find_entry_touch(entry_price: int, type: ActionType, candles: List[CandleNod
                 return i
     return None
 
-def find_best_rr(action_type, entry_price, sl, future_candles, rr_min, rr_max) -> int:
+def find_best_rr(
+    action_type: ActionType, 
+    entry_price: int, 
+    sl: int, 
+    future_candles: List[CandleNode], 
+    rr_min: int, 
+    rr_max: int
+) -> int:
     targets = {rr: derive_target(entry_price, sl, rr, action_type) for rr in range(rr_min, rr_max + 1)}
 
     best_rr = 0
@@ -154,6 +161,7 @@ def zone_score(
     future_candles: List[CandleNode],
     rr_min: int, 
     rr_max: int,
+    max_bin: int,   # = n_bins - 1, giá trị bin hợp lệ tối đa
 ) -> float:
     touch_idx = None
     if zone.direction == ZoneDirection.support:
@@ -166,21 +174,9 @@ def zone_score(
 
     rr = 0
     if zone.direction == ZoneDirection.support:
-        rr = find_best_rr(
-            ActionType.BUY, 
-            zone.upper_bin, 
-            zone.lower_bin - ZONE_PROBE_SL_BUFFER_BINS, 
-            future_candles[touch_idx:], 
-            rr_min, 
-            rr_max
-        )
+        sl = max(0, zone.lower_bin - ZONE_PROBE_SL_BUFFER_BINS)
+        rr = find_best_rr(ActionType.BUY, zone.upper_bin, sl, future_candles[touch_idx:], rr_min, rr_max)
     else:
-        rr = find_best_rr(
-            ActionType.SELL, 
-            zone.lower_bin, 
-            zone.upper_bin + ZONE_PROBE_SL_BUFFER_BINS, 
-            future_candles[touch_idx:], 
-            rr_min, 
-            rr_max
-        )
+        sl = min(max_bin, zone.upper_bin + ZONE_PROBE_SL_BUFFER_BINS)
+        rr = find_best_rr(ActionType.SELL, zone.lower_bin, sl, future_candles[touch_idx:], rr_min, rr_max)
     return rr
